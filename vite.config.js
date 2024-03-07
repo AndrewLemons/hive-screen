@@ -4,6 +4,7 @@ import tailwindcss from "tailwindcss";
 
 export default defineConfig({
 	root: "src",
+	base: "https://andrewlemons.github.io/hive-screen/",
 	build: {
 		outDir: "../dist",
 	},
