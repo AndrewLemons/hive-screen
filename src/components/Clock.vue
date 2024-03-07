@@ -1,19 +1,9 @@
-<script setup>
-import { ref, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, onMounted, watchEffect } from "vue";
+import { emitter, MINUTE_EVENT } from "../ts/events";
 
+const container = ref(null);
 const time = ref("");
-
-// Update the time every minute, on the minute
-function startClock() {
-	const now = new Date();
-	const seconds = now.getSeconds();
-	const milliseconds = now.getMilliseconds();
-	const delay = (60 - seconds) * 1000 - milliseconds;
-	setTimeout(() => {
-		updateClock();
-		setInterval(updateClock, 60000);
-	}, delay);
-}
 
 function updateClock() {
 	let now = new Date();
@@ -26,21 +16,30 @@ function updateClock() {
 	const amPm = hours >= 12 ? "PM" : "AM";
 	hours = hours % 12;
 
-	// Add leading zeros
-	hours = hours < 10 ? "0" + hours : hours;
-	minutes = minutes < 10 ? "0" + minutes : minutes;
+	// Format times
+	let hoursStr = hours === 0 ? "12" : `${hours}`;
+	let minutesStr = minutes < 10 ? `0${minutes}` : `${minutes}`;
 
-	time.value = `${hours}:${minutes} ${amPm}`;
+	time.value = `${hoursStr}:${minutesStr} ${amPm}`;
 }
+
+function updateScale() {
+	if (!container.value) return;
+	let $element = container.value as HTMLElement;
+	$element.style.fontSize = `${$element.clientHeight - 20}px`;
+	$element.style.lineHeight = `${$element.clientHeight}px`;
+}
+
+watchEffect(updateScale);
 
 onMounted(() => {
 	updateClock();
-	startClock();
+	emitter.on(MINUTE_EVENT, updateClock);
 });
 </script>
 
 <template>
-	<div class="flex items-center justify-center">
-		<p class="text-8xl font-bold text-white">{{ time }}</p>
+	<div class="flex items-center justify-center" ref="container">
+		<p class="font-bold text-white">{{ time }}</p>
 	</div>
 </template>

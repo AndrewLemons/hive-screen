@@ -1,0 +1,3 @@
+= Hive Screen
+
+Live status screen to be displayed in The HIVE makerspace at Georgia Tech.
