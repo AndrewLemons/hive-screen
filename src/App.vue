@@ -10,9 +10,7 @@ const hasValidSize = ref(true);
 
 function updateScale() {
 	if (!container.value) return;
-
 	let $container = container.value as HTMLElement;
-	console.log("resize", $container.clientWidth, $container.clientHeight);
 	hasValidSize.value = $container.clientWidth > $container.clientHeight * 1.25;
 }
 

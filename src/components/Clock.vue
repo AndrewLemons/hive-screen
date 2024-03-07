@@ -26,11 +26,12 @@ function updateClock() {
 function updateScale() {
 	if (!container.value) return;
 	let $element = container.value as HTMLElement;
-	$element.style.fontSize = `${$element.clientHeight - 20}px`;
+	$element.style.fontSize = `${$element.clientHeight * 0.9}px`;
 	$element.style.lineHeight = `${$element.clientHeight}px`;
 }
 
 watchEffect(updateScale);
+window.addEventListener("resize", updateScale);
 
 onMounted(() => {
 	updateClock();

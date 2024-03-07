@@ -25,6 +25,7 @@ function updateScale() {
 }
 
 watchEffect(updateScale);
+window.addEventListener("resize", updateScale);
 
 onMounted(() => {
 	update();

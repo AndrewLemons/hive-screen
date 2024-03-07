@@ -17,6 +17,7 @@ function updateScale() {
 }
 
 watchEffect(updateScale);
+window.addEventListener("resize", updateScale);
 </script>
 
 <template>
