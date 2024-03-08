@@ -7,6 +7,9 @@ const container = ref(null);
 const showClosingAlert = ref(false);
 const closingTime = ref("");
 
+const showOpeningAlert = ref(false);
+const openingTime = ref("");
+
 const showAfterHoursAlert = ref(false);
 
 function update() {
@@ -15,15 +18,30 @@ function update() {
 	let minutes = now.getMinutes();
 
 	if (hours === 17 && minutes >= 45) {
+		// Closing soon
 		showClosingAlert.value = true;
-		closingTime.value = `${60 - minutes} min`;
+		closingTime.value = `${60 - minutes} min${minutes > 1 ? "s" : ""}`;
+		// Reset other alerts
 		showAfterHoursAlert.value = false;
-	} else if (hours >= 18 || hours < 10) {
-		showClosingAlert.value = false;
+		showOpeningAlert.value = false;
+	} else if (hours >= 18 || hours < 9) {
+		// After hours
 		showAfterHoursAlert.value = true;
-	} else {
+		// Reset other alerts
+		showClosingAlert.value = false;
+		showOpeningAlert.value = false;
+	} else if (hours === 9) {
+		// Opening soon
+		showOpeningAlert.value = true;
+		openingTime.value = `${60 - minutes} min${minutes > 1 ? "s" : ""}`;
+		// Reset other alerts
 		showClosingAlert.value = false;
 		showAfterHoursAlert.value = false;
+	} else {
+		// Nothing
+		showClosingAlert.value = false;
+		showAfterHoursAlert.value = false;
+		showOpeningAlert.value = false;
 	}
 }
 
@@ -48,10 +66,7 @@ onMounted(() => {
 		class="row-span-2 flex flex-row items-center justify-center gap-4"
 		ref="container"
 	>
-		<span
-			v-if="showClosingAlert"
-			class="bg-red-800 rounded-lg p-8 text-red-200 font-bold"
-		>
+		<span v-if="showClosingAlert" class="rounded-lg p-8 text-red-500 font-bold">
 			Closing in {{ closingTime }}
 		</span>
 		<span
@@ -59,6 +74,12 @@ onMounted(() => {
 			class="rounded-lg p-8 text-purple-500 font-bold"
 		>
 			After Hours
+		</span>
+		<span
+			v-if="showOpeningAlert"
+			class="rounded-lg p-8 text-green-500 font-bold"
+		>
+			Opening in {{ openingTime }}
 		</span>
 	</div>
 </template>
