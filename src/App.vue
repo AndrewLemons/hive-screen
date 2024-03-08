@@ -19,7 +19,7 @@ window.addEventListener("resize", updateScale);
 </script>
 
 <template>
-	<div class="absolute inset-0 bg-gray-900" ref="container">
+	<div class="absolute inset-0 bg-black" ref="container">
 		<div
 			class="absolute inset-0 p-8 gap-8 grid grid-cols-1 grid-rows-3"
 			v-if="hasValidSize"
