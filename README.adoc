@@ -1,3 +1,7 @@
 = Hive Screen
 
+image::https://github.com/AndrewLemons/hive-screen/actions/workflows/main.yml/badge.svg?branch=main[Deploy Status, link="https://github.com/AndrewLemons/hive-screen/actions/workflows/main.yml"]
+
 Live status screen to be displayed in The HIVE makerspace at Georgia Tech.
+
+Deployment can be found https://andrewlemons.github.io/hive-screen/[here].
