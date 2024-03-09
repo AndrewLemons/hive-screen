@@ -16,31 +16,29 @@ function update() {
 	let now = new Date();
 	let hours = now.getHours();
 	let minutes = now.getMinutes();
+	let day = now.getDay();
+	let isWeekend = day === 0 || day === 6;
 
-	if (hours === 17 && minutes >= 45) {
-		// Closing soon
+	// Closing alert
+	if (!isWeekend && hours === 17 && minutes >= 45) {
 		showClosingAlert.value = true;
 		closingTime.value = `${60 - minutes} min${minutes > 1 ? "s" : ""}`;
-		// Reset other alerts
-		showAfterHoursAlert.value = false;
-		showOpeningAlert.value = false;
-	} else if (hours >= 18 || hours < 9) {
-		// After hours
-		showAfterHoursAlert.value = true;
-		// Reset other alerts
+	} else {
 		showClosingAlert.value = false;
-		showOpeningAlert.value = false;
-	} else if (hours === 9) {
-		// Opening soon
+	}
+
+	// After hours alert
+	if (isWeekend || hours >= 18 || hours < 9) {
+		showAfterHoursAlert.value = true;
+	} else {
+		showAfterHoursAlert.value = false;
+	}
+
+	// Opening alert
+	if (!isWeekend && hours === 9) {
 		showOpeningAlert.value = true;
 		openingTime.value = `${60 - minutes} min${minutes > 1 ? "s" : ""}`;
-		// Reset other alerts
-		showClosingAlert.value = false;
-		showAfterHoursAlert.value = false;
 	} else {
-		// Nothing
-		showClosingAlert.value = false;
-		showAfterHoursAlert.value = false;
 		showOpeningAlert.value = false;
 	}
 }
