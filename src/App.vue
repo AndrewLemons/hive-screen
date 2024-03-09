@@ -4,6 +4,7 @@ import { ref, watchEffect } from "vue";
 import Logo from "./components/Logo.vue";
 import Clock from "./components/Clock.vue";
 import Alert from "./components/Alert.vue";
+import ResizeMessage from "./components/ResizeMessage.vue";
 
 const container = ref(null);
 const hasValidSize = ref(true);
@@ -19,7 +20,7 @@ window.addEventListener("resize", updateScale);
 </script>
 
 <template>
-	<div class="absolute inset-0 bg-black" ref="container">
+	<div class="absolute inset-0 bg-black z-0" ref="container">
 		<div
 			class="absolute inset-0 p-8 gap-8 grid grid-cols-1 grid-rows-3"
 			v-if="hasValidSize"
@@ -28,10 +29,6 @@ window.addEventListener("resize", updateScale);
 			<Clock />
 			<Alert />
 		</div>
-		<div class="absolute inset-0 flex items-center justify-center" v-else>
-			<p class="text-white text-4xl font-bold p-8">
-				Please resize the window to a valid aspect ratio
-			</p>
-		</div>
+		<ResizeMessage v-else />
 	</div>
 </template>
