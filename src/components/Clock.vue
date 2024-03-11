@@ -20,6 +20,7 @@ function updateClock() {
 		amPm.value = "PM";
 	} else {
 		amPm.value = "AM";
+		if (hours === 0) hours = 12;
 	}
 
 	// Pad with zeroes without using padStart
@@ -65,8 +66,8 @@ onMounted(() => {
 }
 
 .am-pm {
+	display: block;
 	font-size: 0.3ch;
-	margin-left: 0.2ch;
 }
 </style>
 
