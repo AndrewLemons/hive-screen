@@ -79,19 +79,19 @@ onMounted(() => {
 		<TransitionGroup name="fade" tag="span">
 			<span
 				v-if="showClosingAlert"
-				class="rounded-lg p-8 text-red-500 font-bold"
+				class="rounded-lg p-8 font-bold text-red-500"
 			>
 				Closing in {{ closingTime }}
 			</span>
 			<span
 				v-if="showAfterHoursAlert"
-				class="rounded-lg p-8 text-purple-500 font-bold"
+				class="rounded-lg p-8 font-bold text-purple-500"
 			>
 				After Hours
 			</span>
 			<span
 				v-if="showOpeningAlert"
-				class="rounded-lg p-8 text-green-500 font-bold"
+				class="rounded-lg p-8 font-bold text-green-500"
 			>
 				Opening in {{ openingTime }}
 			</span>

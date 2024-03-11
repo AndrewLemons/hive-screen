@@ -27,13 +27,13 @@ onMounted(() => {
 	<div
 		class="absolute inset-0 flex flex-col items-start justify-center gap-4 p-8"
 	>
-		<p class="text-white text-4xl font-bold">
+		<p class="text-4xl font-bold text-white">
 			Resize your screen to be landscape.
 		</p>
-		<p class="text-white text-xl font-bold">
+		<p class="text-xl font-bold text-white">
 			You don't have to, but it'll work if you do.
 		</p>
-		<p class="text-white text-lg">
+		<p class="text-lg text-white">
 			Your screen is
 			<span class="font-bold" :style="`color: ${percentColor}`"
 				>{{ percentError.toFixed(2) }}%</span
