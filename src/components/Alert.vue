@@ -59,25 +59,42 @@ onMounted(() => {
 });
 </script>
 
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.25s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+</style>
+
 <template>
 	<div
 		class="row-span-2 flex flex-row items-center justify-center gap-4"
 		ref="container"
 	>
-		<span v-if="showClosingAlert" class="rounded-lg p-8 text-red-500 font-bold">
-			Closing in {{ closingTime }}
-		</span>
-		<span
-			v-if="showAfterHoursAlert"
-			class="rounded-lg p-8 text-purple-500 font-bold"
-		>
-			After Hours
-		</span>
-		<span
-			v-if="showOpeningAlert"
-			class="rounded-lg p-8 text-green-500 font-bold"
-		>
-			Opening in {{ openingTime }}
-		</span>
+		<TransitionGroup name="fade" tag="span">
+			<span
+				v-if="showClosingAlert"
+				class="rounded-lg p-8 text-red-500 font-bold"
+			>
+				Closing in {{ closingTime }}
+			</span>
+			<span
+				v-if="showAfterHoursAlert"
+				class="rounded-lg p-8 text-purple-500 font-bold"
+			>
+				After Hours
+			</span>
+			<span
+				v-if="showOpeningAlert"
+				class="rounded-lg p-8 text-green-500 font-bold"
+			>
+				Opening in {{ openingTime }}
+			</span>
+		</TransitionGroup>
 	</div>
 </template>
