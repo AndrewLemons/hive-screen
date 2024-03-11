@@ -4,6 +4,8 @@ import { emitter, MINUTE_EVENT } from "../ts/events";
 import Digit from "./Digit.vue";
 
 const container = ref(null);
+const fontSize = ref("24pt");
+const lineHeight = ref("24pt");
 const digits = ref(["0", "0", "0", "0"]);
 const amPm = ref("AM");
 
@@ -40,9 +42,8 @@ function updateClock() {
 
 function updateScale() {
 	if (!container.value) return;
-	let $element = container.value as HTMLElement;
-	$element.style.fontSize = `${$element.clientHeight * 0.9}px`;
-	$element.style.lineHeight = `${$element.clientHeight}px`;
+	fontSize.value = `${container.value.clientHeight * 0.9}px`;
+	lineHeight.value = `${container.value.clientHeight}px`;
 }
 
 watchEffect(updateScale);
@@ -65,15 +66,20 @@ onMounted(() => {
 	opacity: 0;
 }
 
+.am-pm-container {
+	height: 1ch;
+}
+
 .am-pm {
-	display: block;
 	font-size: 0.3ch;
+	line-height: 1ch;
 }
 </style>
 
 <template>
 	<div
 		class="flex flex-row items-center justify-center font-bold text-white"
+		:style="{ fontSize, lineHeight }"
 		ref="container"
 	>
 		<Digit :value="digits[0]" />
@@ -82,7 +88,9 @@ onMounted(() => {
 		<Digit :value="digits[2]" />
 		<Digit :value="digits[3]" />
 		<Transition name="fade" mode="out-in">
-			<span :key="amPm" class="am-pm">{{ amPm }}</span>
+			<div :key="amPm" class="am-pm-container flex flex-col justify-end">
+				<span class="am-pm">{{ amPm }}</span>
+			</div>
 		</Transition>
 	</div>
 </template>
