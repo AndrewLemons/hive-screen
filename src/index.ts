@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import "./ts/updater";
 
 import App from "./App.vue";
 import "./style.css";
