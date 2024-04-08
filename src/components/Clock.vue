@@ -16,13 +16,17 @@ function updateClock() {
 	let hours = now.getHours();
 	let minutes = now.getMinutes();
 
-	// Convert to 12-hour time
-	if (hours > 12) {
+	// Convert to 12-hour time (noon is 12 PM, midnight is 12 AM)
+	if (hours === 0) {
+		hours = 12;
+		amPm.value = "AM";
+	} else if (hours === 12) {
+		amPm.value = "PM";
+	} else if (hours > 12) {
 		hours -= 12;
 		amPm.value = "PM";
 	} else {
 		amPm.value = "AM";
-		if (hours === 0) hours = 12;
 	}
 
 	// Pad with zeroes without using padStart
