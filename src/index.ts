@@ -1,7 +1,11 @@
 import { createApp } from "vue";
-import "./ts/updater";
+import { createPinia } from "pinia";
 
 import App from "./App.vue";
+import { motionPlugin } from "./ts/motion";
+import "./ts/updater";
 import "./style.css";
 
-createApp(App).mount("#app");
+const pinia = createPinia();
+
+createApp(App).use(pinia).use(motionPlugin).mount("#app");
