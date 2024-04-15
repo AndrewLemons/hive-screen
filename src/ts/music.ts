@@ -23,7 +23,6 @@ export default class Music {
 
 		await MusicKit.configure({
 			developerToken: import.meta.env.VITE_APPLE_DEV_TOKEN,
-			//"eyJhbGciOiJFUzI1NiIsImtpZCI6IlZEQlI0Nlk3VzMifQ.eyJpc3MiOiJTOFBYRldVVEdBIiwiaWF0IjoxNzEyNjIzMDEwLCJleHAiOjE3Mjg0MDAwMTB9.eeJnKtimxDgOyfl8tNGKdZAHCU2DcGnw5El2OICsV521xLP5juTn-n479AlAGDYhXyodX3622yimbRPUNqfjMw",
 			app: {
 				name: "hive-screen",
 				build: "1.0.0",
@@ -82,36 +81,8 @@ export default class Music {
 	private async updateQueue() {
 		this.kit.shuffleMode = MusicKit.PlayerShuffleMode.songs;
 		await this.kit.setQueue({
-			playlist: "pl.102a45355eec4df69fc833f8ca59627d",
+			playlist: "pl.u-pMylgaYu5rVlPZ3",
 			repeatMode: MusicKit.PlayerRepeatMode.all,
 		});
 	}
 }
-
-// document.addEventListener('musickitloaded', async function () {
-// 	// Call configure() to configure an instance of MusicKit on the Web.
-// 	try {
-// 	  await MusicKit.configure({
-// 		developerToken: 'eyJhbGciOiJFUzI1NiIsImtpZCI6IlZEQlI0Nlk3VzMifQ.eyJpc3MiOiJTOFBYRldVVEdBIiwiaWF0IjoxNzEyNjIzMDEwLCJleHAiOjE3Mjg0MDAwMTB9.eeJnKtimxDgOyfl8tNGKdZAHCU2DcGnw5El2OICsV521xLP5juTn-n479AlAGDYhXyodX3622yimbRPUNqfjMw',
-// 		app: {
-// 		  name: 'hive-screen',
-// 		  build: '1.0.0',
-// 		},
-// 	  });
-// 	} catch (err) {
-// 	  // Handle configuration error
-// 	}
-
-// 	// MusicKit instance is available
-// 	const music = MusicKit.getInstance();
-
-// 	await music.authorize();
-
-// 	console.log("Authorized MusicKit instance")
-
-// 	await music.setQueue({
-// 		song: "1689239213"
-// 	});
-
-// 	await music.play()
-// });
