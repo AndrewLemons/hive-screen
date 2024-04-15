@@ -1,27 +1,19 @@
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
+import { ref, computed } from "vue";
+import { useScaleStore } from "../store";
 import logo from "../assets/logo.svg";
 
-const container = ref(null);
-const img = ref(null);
+const scaleStore = useScaleStore();
 
-function updateScale() {
-	if (!container.value) return;
-	if (!img.value) return;
-
-	let $container = container.value as HTMLElement;
-	let $img = img.value as HTMLImageElement;
-
-	$img.style.width = `${$container.clientWidth * 0.5}px`;
-	$img.style.height = `${$container.clientHeight * 0.5}px`;
-}
-
-watchEffect(updateScale);
-window.addEventListener("resize", updateScale);
+const size = computed(() => scaleStore.scale * 0.4);
 </script>
 
 <template>
-	<div class="flex items-center justify-center" ref="container">
-		<img alt="Vue logo" ref="img" :src="logo" />
+	<div class="flex items-center justify-center">
+		<img
+			alt="The Hive Makerspace"
+			:style="`width: ${size}px; height: ${size}px`"
+			:src="logo"
+		/>
 	</div>
 </template>

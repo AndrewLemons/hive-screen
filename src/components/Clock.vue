@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, watchEffect } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { emitter, MINUTE_EVENT } from "../ts/events";
+import { useScaleStore } from "../store";
 import Digit from "./Digit.vue";
 
-const container = ref(null);
-const fontSize = ref("24pt");
-const lineHeight = ref("24pt");
+const scaleStore = useScaleStore();
 const digits = ref(["0", "0", "0", "0"]);
 const amPm = ref("AM");
 
@@ -44,14 +43,8 @@ function updateClock() {
 	];
 }
 
-function updateScale() {
-	if (!container.value) return;
-	fontSize.value = `${container.value.clientHeight * 0.9}px`;
-	lineHeight.value = `${container.value.clientHeight}px`;
-}
-
-watchEffect(updateScale);
-window.addEventListener("resize", updateScale);
+const fontSize = computed(() => scaleStore.scale * 0.3);
+const lineHeight = computed(() => scaleStore.scale * 0.3);
 
 onMounted(() => {
 	updateClock();
@@ -83,8 +76,7 @@ onMounted(() => {
 <template>
 	<div
 		class="flex flex-row items-center justify-center font-bold text-white"
-		:style="{ fontSize, lineHeight }"
-		ref="container"
+		:style="`font-size: ${fontSize}px; line-height: ${lineHeight}px`"
 	>
 		<Digit :value="digits[0]" />
 		<Digit :value="digits[1]" />

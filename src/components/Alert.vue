@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, watchEffect } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { emitter, MINUTE_EVENT } from "../ts/events";
+import { useScaleStore } from "../store";
 
-const container = ref(null);
+const scaleStore = useScaleStore();
 
 const showClosingAlert = ref(false);
 const closingTime = ref("");
@@ -43,15 +44,8 @@ function update() {
 	}
 }
 
-function updateScale() {
-	if (!container.value) return;
-	let $element = container.value as HTMLElement;
-	$element.style.fontSize = `${$element.clientHeight * 0.25}px`;
-	$element.style.lineHeight = `${$element.clientHeight * 0.25}px`;
-}
-
-watchEffect(updateScale);
-window.addEventListener("resize", updateScale);
+const fontSize = computed(() => scaleStore.scale * 0.08);
+const lineHeight = computed(() => scaleStore.scale * 0.08);
 
 onMounted(() => {
 	update();
@@ -74,7 +68,7 @@ onMounted(() => {
 <template>
 	<div
 		class="row-span-2 flex flex-row items-center justify-center gap-4"
-		ref="container"
+		:style="`font-size: ${fontSize}px; line-height: ${lineHeight}px`"
 	>
 		<TransitionGroup name="fade" tag="span">
 			<span

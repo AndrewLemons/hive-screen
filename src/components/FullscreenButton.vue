@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useMotionStore } from "../store";
 
+const motionStore = useMotionStore();
 const isFullscreen = ref(false);
 
 function toggleFullscreen() {
@@ -22,7 +24,7 @@ onMounted(() => {
 
 <template>
 	<button
-		v-if="!isFullscreen"
+		v-if="!isFullscreen && motionStore.isActive"
 		class="fixed right-4 top-4 z-10 rounded-md bg-gray-800 p-2 text-white"
 		@click="toggleFullscreen"
 	>
