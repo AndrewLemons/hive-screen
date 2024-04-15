@@ -1,14 +1,14 @@
 import { emitter, QUARTER_EVENT } from "./events";
 
-let lastVersion: string | null = null;
+let lastBuild: string | null = null;
 
 function fetchVersion() {
 	fetch("./version.json")
 		.then((response) => response.json())
 		.then((data) => {
-			if (!lastVersion) {
-				lastVersion = data.version;
-			} else if (lastVersion !== data.version) {
+			if (!lastBuild) {
+				lastBuild = data.buildTime;
+			} else if (lastBuild !== data.buildTime) {
 				window.location.reload();
 			}
 		});
