@@ -25,7 +25,7 @@ onMounted(() => {
 <template>
 	<button
 		v-if="!isFullscreen && motionStore.isActive"
-		class="fixed right-4 top-4 z-10 rounded-md bg-gray-800 p-2 text-white"
+		class="rounded-md bg-gray-800 p-2 text-white"
 		@click="toggleFullscreen"
 	>
 		Fullscreen

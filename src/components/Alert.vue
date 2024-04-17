@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { emitter, MINUTE_EVENT } from "../ts/events";
-import { useScaleStore } from "../store";
+import { useScaleStore, useOpeningsStore } from "../store";
 
 const scaleStore = useScaleStore();
+const openingsStore = useOpeningsStore();
 
 const showClosingAlert = ref(false);
 const closingTime = ref("");
@@ -12,35 +13,44 @@ const showOpeningAlert = ref(false);
 const openingTime = ref("");
 
 const showAfterHoursAlert = ref(false);
+const showClosedAlert = ref(false);
 
 function update() {
-	let now = new Date();
-	let hours = now.getHours();
-	let minutes = now.getMinutes();
-	let day = now.getDay();
-	let isWeekend = day === 0 || day === 6;
+	let isOpen = openingsStore.isOpen;
+	let isOpenToday = openingsStore.isOpenToday;
+	let isOpeningSoon = openingsStore.isOpeningSoon;
+	let isClosingSoon = openingsStore.isClosingSoon;
+	let openingInDuration = openingsStore.openingInDuration;
+	let closingInDuration = openingsStore.closingInDuration;
 
 	// Closing alert
-	if (!isWeekend && hours === 17 && minutes >= 45) {
+	if (isOpen && isClosingSoon) {
 		showClosingAlert.value = true;
-		closingTime.value = `${60 - minutes} min${minutes > 1 ? "s" : ""}`;
+		closingTime.value = `${60 - closingInDuration} min${closingInDuration > 1 ? "s" : ""}`;
 	} else {
 		showClosingAlert.value = false;
 	}
 
+	// Opening alert
+	if (!isOpen && isOpeningSoon) {
+		showOpeningAlert.value = true;
+		openingTime.value = `${60 - openingInDuration} min${openingInDuration > 1 ? "s" : ""}`;
+	} else {
+		showOpeningAlert.value = false;
+	}
+
 	// After hours alert
-	if (isWeekend || hours >= 18 || hours < 9) {
+	if (!isOpen && !isOpeningSoon && !isClosingSoon && isOpenToday) {
 		showAfterHoursAlert.value = true;
 	} else {
 		showAfterHoursAlert.value = false;
 	}
 
-	// Opening alert
-	if (!isWeekend && hours === 9) {
-		showOpeningAlert.value = true;
-		openingTime.value = `${60 - minutes} min${minutes > 1 ? "s" : ""}`;
+	// Closed alert
+	if (!isOpenToday) {
+		showClosedAlert.value = true;
 	} else {
-		showOpeningAlert.value = false;
+		showClosedAlert.value = false;
 	}
 }
 
@@ -88,6 +98,12 @@ onMounted(() => {
 				class="rounded-lg p-8 font-bold text-green-500"
 			>
 				Opening in {{ openingTime }}
+			</span>
+			<span
+				v-if="showClosedAlert"
+				class="rounded-lg p-8 font-bold text-red-500"
+			>
+				Closed
 			</span>
 		</TransitionGroup>
 	</div>
